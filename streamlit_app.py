@@ -82,7 +82,35 @@ st.title("🎲 DillemAI")
 st.write("Let AI help you make smarter choices, not random ones.")
 
 purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
-options_input = st.text_input("🔘 Enter options (comma-separated)", placeholder="Pizza, Burger, Salad")
+
+# --- Option tag input system ---
+st.subheader("🔘 Add decision options")
+if "options" not in st.session_state:
+    st.session_state.options = []
+
+# Input box to enter one option at a time
+new_option = st.text_input("Type option and press Enter", key="new_option_input")
+
+# Add on Enter or comma
+if new_option and (st.session_state.get("last_option") != new_option):
+    cleaned = new_option.strip().strip(",")
+    if cleaned and cleaned not in st.session_state.options:
+        st.session_state.options.append(cleaned)
+    st.session_state.last_option = new_option
+    st.experimental_rerun()  # Instant refresh
+
+# Show all current tags
+if st.session_state.options:
+    st.write("### Options:")
+    cols = st.columns(len(st.session_state.options))
+    for i, opt in enumerate(st.session_state.options):
+        with cols[i]:
+            remove = st.button(f"❌ {opt}", key=f"remove_{opt}")
+            if remove:
+                st.session_state.options.remove(opt)
+                st.experimental_rerun()
+else:
+    st.info("Enter at least 2 options.")
 
 def fetch_questions():
     options = [o.strip() for o in options_input.split(",") if o.strip()]
