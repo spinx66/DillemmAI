@@ -13,6 +13,18 @@ from components.ui import (
 
 st.set_page_config(page_title="🎲 DilemmAI", layout="centered")
 
+st.markdown("""
+<script>
+const observer = new MutationObserver(() => {
+  const theme = window.getComputedStyle(document.documentElement).getPropertyValue('--background-color');
+  const isDark = getComputedStyle(document.body).backgroundColor === 'rgb(14, 17, 23)';
+  document.body.classList.remove('dark-mode', 'light-mode');
+  document.body.classList.add(isDark ? 'dark-mode' : 'light-mode');
+});
+observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script>
+""", unsafe_allow_html=True)
+
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
