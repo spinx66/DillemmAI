@@ -15,13 +15,13 @@ st.set_page_config(page_title="🎲 DilemmAI", layout="centered")
 
 st.markdown("""
 <script>
-const observer = new MutationObserver(() => {
-  const theme = window.getComputedStyle(document.documentElement).getPropertyValue('--background-color');
-  const isDark = getComputedStyle(document.body).backgroundColor === 'rgb(14, 17, 23)';
+function detectDarkMode() {
+  const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   document.body.classList.remove('dark-mode', 'light-mode');
-  document.body.classList.add(isDark ? 'dark-mode' : 'light-mode');
-});
-observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  document.body.classList.add(dark ? 'dark-mode' : 'light-mode');
+}
+detectDarkMode();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', detectDarkMode);
 </script>
 """, unsafe_allow_html=True)
 
