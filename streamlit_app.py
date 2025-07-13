@@ -77,24 +77,47 @@ st.write("Let AI help you make smarter choices, not random ones.")
 purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
 options_input = st.text_input("🔘 Enter options (comma-separated)", placeholder="Pizza, Burger, Salad")
 
-if st.button("🚀 Generate Questions"):
-    if not purpose or not options_input:
-        st.warning("Please enter both a main question and at least 2 options.")
+# --- Init session state ---
+if "questions" not in st.session_state:
+    st.session_state.questions = []
+if "answers" not in st.session_state:
+    st.session_state.answers = {}
+
+# --- UI ---
+st.title("🎲 DillemAI")
+st.write("Let AI help you make smarter choices, not random ones.")
+
+purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
+options_input = st.text_input("🔘 Enter options (comma-separated)", placeholder="Pizza, Burger, Salad")
+
+# Function to run only when button is clicked
+def fetch_questions():
+    options = [o.strip() for o in options_input.split(",") if o.strip()]
+    if not purpose or len(options) < 2:
+        st.warning("Please enter a valid question and at least 2 options.")
+        return
+    questions = generate_questions(purpose, options)
+    if not questions:
+        st.error("Groq didn't return any questions.")
     else:
+        st.session_state.questions = questions
+        st.session_state.answers = {}
+
+st.button("🚀 Generate Questions", on_click=fetch_questions)
+
+if st.session_state.questions:
+    st.subheader("🧠 Answer a few smart questions:")
+    for q in st.session_state.questions:
+        user_answer = st.radio(
+            q["text"],
+            q["options"],
+            key=q["text"],
+            index=st.session_state.answers.get(q["text"], 0) if q["text"] in st.session_state.answers else 0
+        )
+        st.session_state.answers[q["text"]] = user_answer
+
+    if st.button("🎯 Get Smart Decision"):
         options = [o.strip() for o in options_input.split(",") if o.strip()]
-        if len(options) < 2:
-            st.warning("You need at least 2 options.")
-        else:
-            questions = generate_questions(purpose, options)
-            if not questions:
-                st.error("Groq didn't return any questions.")
-            else:
-                answers = {}
-                st.subheader("🧠 Answer a few smart questions:")
-                for q in questions:
-                    answers[q["text"]] = st.radio(q["text"], q["options"], key=q["text"])
-                
-                if st.button("🎯 Get Smart Decision"):
-                    result = get_final_decision(purpose, options, answers)
-                    st.success(f"**Decision:** {result['decision']}")
-                    st.info(f"💡 _{result['reason']}_")
+        result = get_final_decision(purpose, options, st.session_state.answers)
+        st.success(f"**Decision:** {result['decision']}")
+        st.info(f"💡 _{result['reason']}_")
