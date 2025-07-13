@@ -71,9 +71,9 @@ Respond in:
     return safe_json_object(call_groq(prompt))
 
 # --- Session State ---
-for key in ["questions", "answers", "options", "last_option"]:
+for key in ["questions", "answers", "options"]:
     if key not in st.session_state:
-        st.session_state[key] = [] if key == "options" else {}
+        st.session_state[key] = []
 
 # --- UI Layout ---
 st.set_page_config(page_title="🎲 DillemAI", layout="centered")
@@ -82,19 +82,18 @@ st.write("Let AI help you make smarter choices, not random ones.")
 
 purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
 
-# --- Tag Input System ---
-st.subheader("🔘 Enter your options (press Enter or comma)")
+# --- Tag Input Style Option Input ---
+st.subheader("🔘 Enter your options (press 'Add Option' or Enter)")
 
-new_option = st.text_input("Type an option", key="new_option_input")
+with st.form("add_option_form", clear_on_submit=True):
+    new_option = st.text_input("Type an option", placeholder="e.g. Burger", key="new_option_input")
+    submitted = st.form_submit_button("➕ Add Option")
+    if submitted and new_option:
+        cleaned = new_option.strip().strip(",")
+        if cleaned and cleaned not in st.session_state.options:
+            st.session_state.options.append(cleaned)
 
-if new_option and (new_option != st.session_state.get("last_option", "")):
-    cleaned = new_option.strip().strip(",")
-    if cleaned and cleaned not in st.session_state.options:
-        st.session_state.options.append(cleaned)
-    st.session_state.last_option = new_option
-    st.experimental_rerun()
-
-# Display as tags with remove buttons
+# Display options as removable tags
 if st.session_state.options:
     st.write("### Options:")
     cols = st.columns(min(len(st.session_state.options), 4))
@@ -102,7 +101,7 @@ if st.session_state.options:
         with cols[i % len(cols)]:
             if st.button(f"❌ {opt}", key=f"remove_{opt}"):
                 st.session_state.options.remove(opt)
-                st.experimental_rerun()
+
 else:
     st.info("Add at least 2 options to continue.")
 
@@ -121,7 +120,7 @@ def fetch_questions():
 
 st.button("🚀 Generate Questions", on_click=fetch_questions)
 
-# --- Show Questions ---
+# --- Show Questions and Collect Answers ---
 if st.session_state.questions:
     st.subheader("🧠 Answer a few smart questions:")
     for q in st.session_state.questions:
