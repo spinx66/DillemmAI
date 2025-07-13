@@ -70,13 +70,6 @@ Respond in:
     return safe_json_object(call_groq(prompt))
 
 # --- UI ---
-st.set_page_config(page_title="🎲 DillemAI", layout="centered")
-st.title("🎲 DillemAI")
-st.write("Let AI help you make smarter choices, not random ones.")
-
-purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
-options_input = st.text_input("🔘 Enter options (comma-separated)", placeholder="Pizza, Burger, Salad")
-
 # --- Init session state ---
 if "questions" not in st.session_state:
     st.session_state.questions = []
@@ -121,3 +114,4 @@ if st.session_state.questions:
         result = get_final_decision(purpose, options, st.session_state.answers)
         st.success(f"**Decision:** {result['decision']}")
         st.info(f"💡 _{result['reason']}_")
+
