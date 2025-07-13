@@ -1,0 +1,155 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f4f7fa, #e3edf7);
+  color: #222;
+}
+
+.app-container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.app-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+.input-section,
+.question-section,
+.result-box {
+  margin-bottom: 30px;
+}
+
+.input-label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 600;
+}
+
+.text-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+.text-input:focus {
+  border-color: #007bff;
+}
+
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: popIn 0.2s ease-out;
+}
+
+.tag span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.primary-button,
+.secondary-button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.primary-button {
+  background: linear-gradient(to right, #007bff, #0056d2);
+  color: white;
+}
+
+.primary-button:hover {
+  transform: scale(1.05);
+}
+
+.secondary-button {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.secondary-button:hover {
+  background: #e0e0e0;
+}
+
+.question-block {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.result-box {
+  padding: 20px;
+  background: #dfffe0;
+  border: 2px dashed #5ec85e;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none;
+}
+
+label input[type="radio"] {
+  margin-right: 8px;
+}
