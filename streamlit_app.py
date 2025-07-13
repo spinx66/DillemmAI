@@ -114,14 +114,76 @@ st.markdown("<p class='subtitle'>Let AI make your choices smarter, not random.</
 st.subheader("💭 What do you want to decide?")
 purpose = st.text_input("", placeholder="e.g. Should I launch this feature?")
 
-st.subheader("🏷️ Enter Options (as tags)")
+st.subheader("🏷️ Your Options")
+
+# Add option input
 with st.form("option_form", clear_on_submit=True):
-    new_opt = st.text_input("Type an option and hit Add", key="option_input")
+    new_opt = st.text_input("Type and press Add", placeholder="e.g. Build new feature")
     add_btn = st.form_submit_button("➕ Add Option")
     if add_btn and new_opt:
         val = new_opt.strip().strip(",")
         if val and val not in st.session_state.options:
             st.session_state.options.append(val)
+
+# Style tags using HTML
+st.markdown("""
+<style>
+.tag-pill {
+    display: inline-block;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 20px;
+    padding: 6px 12px;
+    margin: 5px 6px 5px 0;
+    font-size: 0.9em;
+    position: relative;
+}
+.tag-pill:hover {
+    background-color: #e0e0e0;
+}
+.tag-pill button {
+    border: none;
+    background: none;
+    color: #999;
+    margin-left: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    right: 6px;
+}
+.tag-pill button:hover {
+    color: red;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Render each tag with a working remove button
+for i, tag in enumerate(st.session_state.options):
+    col = st.columns([1, 5, 1])[1]  # center column
+    with col:
+        tag_html = f"""
+        <div class="tag-pill">
+            {tag}
+            <form action="" method="post">
+                <button name="remove_tag" value="{i}">&times;</button>
+            </form>
+        </div>
+        """
+        st.markdown(tag_html, unsafe_allow_html=True)
+
+# Process tag remove if triggered
+remove_index = st.experimental_get_query_params().get("remove_tag")
+if st.session_state.get("remove_tag"):
+    index = int(st.session_state.remove_tag)
+    if 0 <= index < len(st.session_state.options):
+        del st.session_state.options[index]
+        st.session_state.remove_tag = None
+elif "remove_tag" in st.query_params:
+    del_index = int(st.query_params["remove_tag"][0])
+    if 0 <= del_index < len(st.session_state.options):
+        st.session_state.options.pop(del_index)
+        st.experimental_rerun()
 
 if st.session_state.options:
     cols = st.columns(min(4, len(st.session_state.options)))
