@@ -1,48 +1,53 @@
-/* =================== THEME VARIABLES =================== */
+/* ========== Base Theme Colors ========== */
 :root {
   --primary: #007bff;
   --primary-dark: #0056d2;
-  --light-bg: #ffffff;
-  --dark-bg: #0e1117;
-  --light-text: #222;
-  --dark-text: #f1f1f1;
-  --light-border: #ccc;
-  --dark-border: #444;
-  --light-result-bg: #dfffe0;
-  --dark-result-bg: #123a12;
+  --text-light: #222;
+  --text-dark: #f1f1f1;
+  --bg-light: #ffffff;
+  --bg-dark: #0e1117;
+  --border-light: #ccc;
+  --border-dark: #444;
   --tag-light: #007bff;
   --tag-dark: #1a73e8;
+  --result-light: #dfffe0;
+  --result-dark: #123a12;
 }
 
-/* ============ DYNAMIC THEME ============ */
-body.light-mode {
-  --background: var(--light-bg);
-  --text: var(--light-text);
-  --border: var(--light-border);
-  --tag-bg: var(--tag-light);
-  --result-bg: var(--light-result-bg);
+/* Base fallback (light) */
+body {
+  --background: #ffffff;
+  --text: #222;
+  --border: #ccc;
+  --tag-bg: #007bff;
+  --result-bg: #dfffe0;
   --result-text: #222;
 }
 
+/* Dark mode overrides */
 body.dark-mode {
-  --background: var(--dark-bg);
-  --text: var(--dark-text);
-  --border: var(--dark-border);
-  --tag-bg: var(--tag-dark);
-  --result-bg: var(--dark-result-bg);
+  --background: #0e1117;
+  --text: #f1f1f1;
+  --border: #444;
+  --tag-bg: #1a73e8;
+  --result-bg: #123a12;
   --result-text: #d4fcd4;
 }
 
-/* ============ BASE ============ */
-body, .stApp {
+/* ========== General ========== */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
   background-color: var(--background) !important;
   color: var(--text) !important;
-  font-family: 'Inter', sans-serif;
 }
 
-/* ============ INPUTS & WIDGETS ============ */
-input[type="text"],
-textarea,
+/* ========== Streamlit Base Fixes ========== */
+.stApp {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+}
+
 .stTextInput > div > input,
 .stTextArea textarea,
 .stSelectbox div[data-baseweb="select"],
@@ -50,19 +55,13 @@ textarea,
   background-color: var(--background) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
-  border-radius: 10px;
-  padding: 10px 14px;
 }
 
 .stTextInput > div > input::placeholder {
-  color: #888 !important;
+  color: #999 !important;
 }
 
-.stRadio label, .stRadio div {
-  color: var(--text) !important;
-}
-
-/* ============ CONTAINER ============ */
+/* ========== App Container ========== */
 .app-container {
   max-width: 720px;
   margin: 40px auto;
@@ -72,7 +71,7 @@ textarea,
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* ============ HEADER ============ */
+/* Header */
 .app-header {
   text-align: center;
   margin-bottom: 30px;
@@ -80,6 +79,7 @@ textarea,
 
 .app-header h1 {
   font-size: 2.2rem;
+  margin-bottom: 0.4rem;
 }
 
 .subtitle {
@@ -87,15 +87,31 @@ textarea,
   color: gray;
 }
 
-/* ============ LABELS ============ */
+/* Labels and Inputs */
 .input-label {
   display: block;
   margin: 12px 0 6px;
   font-weight: 600;
 }
 
-/* ============ BUTTONS ============ */
-button, .stButton > button {
+input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  outline: none;
+  background-color: var(--background);
+  color: var(--text);
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary);
+}
+
+/* Buttons */
+button, .stButton>button {
   padding: 12px 20px;
   font-size: 1rem;
   font-weight: bold;
@@ -105,25 +121,25 @@ button, .stButton > button {
   transition: background 0.3s, transform 0.2s;
 }
 
-.primary-button, .stButton > button {
+button.primary-button, .stButton>button {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: white;
 }
 
-.primary-button:hover, .stButton > button:hover {
+button.primary-button:hover, .stButton>button:hover {
   transform: scale(1.05);
 }
 
 .secondary-button {
-  background: var(--border);
-  color: var(--text);
+  background: #f0f0f0;
+  color: #333;
 }
 
 .secondary-button:hover {
-  background: #666;
+  background: #e0e0e0;
 }
 
-/* ============ TAGS ============ */
+/* Tags */
 .tag-input-container {
   display: flex;
   flex-wrap: wrap;
@@ -155,16 +171,18 @@ button, .stButton > button {
   font-weight: bold;
 }
 
-/* ============ QUESTIONS ============ */
+/* Question Block */
 .question-block {
   margin: 20px 0;
   padding: 15px;
+  background: rgba(127, 127, 127, 0.07); /* ✅ Change this */
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* ============ RESULT ============ */
+/* Result */
 .result-box {
   padding: 20px;
   background: var(--result-bg);
@@ -175,12 +193,33 @@ button, .stButton > button {
   animation: fadeIn 0.4s ease-in;
 }
 
-/* ============ RADIO FIX ============ */
+/* Radio Button Fix */
 label input[type="radio"] {
   margin-right: 8px;
 }
 
-/* ============ ANIMATIONS ============ */
+  /* Fixes for internal Streamlit widget containers */
+section, .stRadio, .stSelectbox, .stTextInput, .stTextArea, .stForm {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.stRadio > div > label,
+.stSelectbox > div,
+.stTextInput > div,
+.stTextArea > div {
+  color: var(--text) !important;
+}
+
+/* Fix label opacity */
+.stRadio label, .stSelectbox label, .stTextInput label {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+
+
+/* Animations */
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
