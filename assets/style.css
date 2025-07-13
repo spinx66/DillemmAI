@@ -1,32 +1,35 @@
-/* style.css */
+/* assets/style.css */
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  color: var(--text-color);
+  background: var(--background);
+  transition: all 0.3s ease;
 }
 
 :root {
-  --bg: linear-gradient(135deg, #f4f7fa, #e3edf7);
-  --text: #222;
-  --card: white;
-  --border: #ccc;
-  --accent: #007bff;
-  --secondary: #f0f0f0;
-  --highlight: #dfffe0;
+  --background: #f4f7fa;
+  --card: #ffffff;
+  --text-color: #222222;
+  --border: #cccccc;
+  --tag-bg: #007bff;
+  --tag-text: #ffffff;
+  --highlight: #007bff;
+  --muted: #666666;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: linear-gradient(135deg, #121212, #1f1f1f);
-    --text: #f0f0f0;
-    --card: #1a1a1a;
-    --border: #444;
-    --accent: #3399ff;
-    --secondary: #2b2b2b;
-    --highlight: #1e3a1e;
+    --background: #1e1e1e;
+    --card: #2b2b2b;
+    --text-color: #f5f5f5;
+    --border: #444444;
+    --tag-bg: #3399ff;
+    --tag-text: #ffffff;
+    --highlight: #66b2ff;
+    --muted: #aaaaaa;
   }
 }
 
@@ -51,8 +54,7 @@ body {
 
 .subtitle {
   font-size: 1rem;
-  color: var(--text);
-  opacity: 0.7;
+  color: var(--muted);
 }
 
 .input-section,
@@ -73,40 +75,45 @@ body {
   font-size: 1rem;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
   outline: none;
   box-sizing: border-box;
   transition: border 0.3s;
+  background: var(--card);
+  color: var(--text-color);
 }
 
 .text-input:focus {
-  border-color: var(--accent);
+  border-color: var(--highlight);
+}
+
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
 .tag-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
+  gap: 8px;
 }
 
 .tag {
-  background-color: var(--accent);
-  color: white;
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: 50px;
   font-size: 0.9rem;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   animation: popIn 0.2s ease-out;
 }
 
 .tag span {
   cursor: pointer;
   font-weight: bold;
-  padding-left: 4px;
 }
 
 @keyframes popIn {
@@ -127,7 +134,7 @@ body {
 }
 
 .primary-button {
-  background: linear-gradient(to right, var(--accent), #0056d2);
+  background: linear-gradient(to right, var(--highlight), #0056d2);
   color: white;
 }
 
@@ -136,25 +143,26 @@ body {
 }
 
 .secondary-button {
-  background: var(--secondary);
-  color: var(--text);
+  background: #f0f0f0;
+  color: #333;
 }
 
 .secondary-button:hover {
-  background: #ddd;
+  background: #e0e0e0;
 }
 
 .question-block {
   margin: 20px 0;
   padding: 15px;
-  background: var(--secondary);
+  background: var(--background);
   border-radius: 10px;
+  border: 1px solid var(--border);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .result-box {
   padding: 20px;
-  background: var(--highlight);
+  background: #dfffe0;
   border: 2px dashed #5ec85e;
   border-radius: 12px;
   font-size: 1.1rem;
@@ -164,6 +172,10 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none;
 }
 
 label input[type="radio"] {
