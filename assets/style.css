@@ -14,23 +14,23 @@
   --result-dark: #123a12;
 }
 
-/* Theme: Light */
-html[data-theme="light"] {
-  --background: var(--bg-light);
-  --text: var(--text-light);
-  --border: var(--border-light);
-  --tag-bg: var(--tag-light);
-  --result-bg: var(--result-light);
-  --result-text: var(--text-light);
+/* Base fallback (light) */
+body {
+  --background: #ffffff;
+  --text: #222;
+  --border: #ccc;
+  --tag-bg: #007bff;
+  --result-bg: #dfffe0;
+  --result-text: #222;
 }
 
-/* Theme: Dark */
-html[data-theme="dark"] {
-  --background: var(--bg-dark);
-  --text: var(--text-dark);
-  --border: var(--border-dark);
-  --tag-bg: var(--tag-dark);
-  --result-bg: var(--result-dark);
+/* Dark mode overrides */
+body.dark-mode {
+  --background: #0e1117;
+  --text: #f1f1f1;
+  --border: #444;
+  --tag-bg: #1a73e8;
+  --result-bg: #123a12;
   --result-text: #d4fcd4;
 }
 
