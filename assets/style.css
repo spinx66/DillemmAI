@@ -1,43 +1,67 @@
-/* Root Styling */
+/* ========== Base Theme Colors ========== */
 :root {
   --primary: #007bff;
   --primary-dark: #0056d2;
-  --background-light: #ffffff;
-  --background-dark: #0e1117;
   --text-light: #222;
-  --text-dark: #eee;
+  --text-dark: #f1f1f1;
+  --bg-light: #ffffff;
+  --bg-dark: #0e1117;
   --border-light: #ccc;
-  --border-dark: #333;
-  --tag-bg-light: #007bff;
-  --tag-bg-dark: #1a73e8;
+  --border-dark: #444;
+  --tag-light: #007bff;
+  --tag-dark: #1a73e8;
+  --result-light: #dfffe0;
+  --result-dark: #123a12;
 }
 
-/* Detect Streamlit Theme */
-html[data-theme="dark"] {
-  --background: var(--background-dark);
-  --text: var(--text-dark);
-  --border: var(--border-dark);
-  --tag-bg: var(--tag-bg-dark);
-}
-
-html[data-theme="light"],
-:root {
-  --background: var(--background-light);
+/* Theme: Light */
+html[data-theme="light"] {
+  --background: var(--bg-light);
   --text: var(--text-light);
   --border: var(--border-light);
-  --tag-bg: var(--tag-bg-light);
+  --tag-bg: var(--tag-light);
+  --result-bg: var(--result-light);
+  --result-text: var(--text-light);
 }
 
-/* General */
+/* Theme: Dark */
+html[data-theme="dark"] {
+  --background: var(--bg-dark);
+  --text: var(--text-dark);
+  --border: var(--border-dark);
+  --tag-bg: var(--tag-dark);
+  --result-bg: var(--result-dark);
+  --result-text: #d4fcd4;
+}
+
+/* ========== General ========== */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--background);
-  color: var(--text);
+  background-color: var(--background) !important;
+  color: var(--text) !important;
 }
 
-/* App Container */
+/* ========== Streamlit Base Fixes ========== */
+.stApp {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+}
+
+.stTextInput > div > input,
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"],
+.stRadio > div {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.stTextInput > div > input::placeholder {
+  color: #999 !important;
+}
+
+/* ========== App Container ========== */
 .app-container {
   max-width: 720px;
   margin: 40px auto;
@@ -63,7 +87,7 @@ body {
   color: gray;
 }
 
-/* Input */
+/* Labels and Inputs */
 .input-label {
   display: block;
   margin: 12px 0 6px;
@@ -77,10 +101,9 @@ input[type="text"] {
   border-radius: 10px;
   border: 1px solid var(--border);
   outline: none;
-  box-sizing: border-box;
-  transition: border 0.3s;
   background-color: var(--background);
   color: var(--text);
+  transition: border 0.3s;
 }
 
 input[type="text"]:focus {
@@ -98,7 +121,7 @@ button, .stButton>button {
   transition: background 0.3s, transform 0.2s;
 }
 
-button.primary-button, .stButton>button:first-child {
+button.primary-button, .stButton>button {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: white;
 }
@@ -116,7 +139,7 @@ button.primary-button:hover, .stButton>button:hover {
   background: #e0e0e0;
 }
 
-/* Tag Input */
+/* Tags */
 .tag-input-container {
   display: flex;
   flex-wrap: wrap;
@@ -148,12 +171,7 @@ button.primary-button:hover, .stButton>button:hover {
   font-weight: bold;
 }
 
-/* Animations */
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
+/* Question Block */
 .question-block {
   margin: 20px 0;
   padding: 15px;
@@ -162,25 +180,26 @@ button.primary-button:hover, .stButton>button:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Results */
+/* Result */
 .result-box {
   padding: 20px;
-  background: #dfffe0;
+  background: var(--result-bg);
   border: 2px dashed #5ec85e;
   border-radius: 12px;
   font-size: 1.1rem;
+  color: var(--result-text);
   animation: fadeIn 0.4s ease-in;
 }
 
-html[data-theme="dark"] .result-box {
-  background: #123a12;
-  border-color: #5ec85e;
-  color: #d4fcd4;
-}
-
-/* Radio buttons */
+/* Radio Button Fix */
 label input[type="radio"] {
   margin-right: 8px;
+}
+
+/* Animations */
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes fadeIn {
