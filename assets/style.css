@@ -1,53 +1,48 @@
-/* ========== Base Theme Colors ========== */
+/* =================== THEME VARIABLES =================== */
 :root {
   --primary: #007bff;
   --primary-dark: #0056d2;
-  --text-light: #222;
-  --text-dark: #f1f1f1;
-  --bg-light: #ffffff;
-  --bg-dark: #0e1117;
-  --border-light: #ccc;
-  --border-dark: #444;
+  --light-bg: #ffffff;
+  --dark-bg: #0e1117;
+  --light-text: #222;
+  --dark-text: #f1f1f1;
+  --light-border: #ccc;
+  --dark-border: #444;
+  --light-result-bg: #dfffe0;
+  --dark-result-bg: #123a12;
   --tag-light: #007bff;
   --tag-dark: #1a73e8;
-  --result-light: #dfffe0;
-  --result-dark: #123a12;
 }
 
-/* Base fallback (light) */
-body {
-  --background: #ffffff;
-  --text: #222;
-  --border: #ccc;
-  --tag-bg: #007bff;
-  --result-bg: #dfffe0;
+/* ============ DYNAMIC THEME ============ */
+body.light-mode {
+  --background: var(--light-bg);
+  --text: var(--light-text);
+  --border: var(--light-border);
+  --tag-bg: var(--tag-light);
+  --result-bg: var(--light-result-bg);
   --result-text: #222;
 }
 
-/* Dark mode overrides */
 body.dark-mode {
-  --background: #0e1117;
-  --text: #f1f1f1;
-  --border: #444;
-  --tag-bg: #1a73e8;
-  --result-bg: #123a12;
+  --background: var(--dark-bg);
+  --text: var(--dark-text);
+  --border: var(--dark-border);
+  --tag-bg: var(--tag-dark);
+  --result-bg: var(--dark-result-bg);
   --result-text: #d4fcd4;
 }
 
-/* ========== General ========== */
-body {
-  margin: 0;
+/* ============ BASE ============ */
+body, .stApp {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
   font-family: 'Inter', sans-serif;
-  background-color: var(--background) !important;
-  color: var(--text) !important;
 }
 
-/* ========== Streamlit Base Fixes ========== */
-.stApp {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-}
-
+/* ============ INPUTS & WIDGETS ============ */
+input[type="text"],
+textarea,
 .stTextInput > div > input,
 .stTextArea textarea,
 .stSelectbox div[data-baseweb="select"],
@@ -55,13 +50,19 @@ body {
   background-color: var(--background) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  padding: 10px 14px;
 }
 
 .stTextInput > div > input::placeholder {
-  color: #999 !important;
+  color: #888 !important;
 }
 
-/* ========== App Container ========== */
+.stRadio label, .stRadio div {
+  color: var(--text) !important;
+}
+
+/* ============ CONTAINER ============ */
 .app-container {
   max-width: 720px;
   margin: 40px auto;
@@ -71,7 +72,7 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Header */
+/* ============ HEADER ============ */
 .app-header {
   text-align: center;
   margin-bottom: 30px;
@@ -79,7 +80,6 @@ body {
 
 .app-header h1 {
   font-size: 2.2rem;
-  margin-bottom: 0.4rem;
 }
 
 .subtitle {
@@ -87,31 +87,15 @@ body {
   color: gray;
 }
 
-/* Labels and Inputs */
+/* ============ LABELS ============ */
 .input-label {
   display: block;
   margin: 12px 0 6px;
   font-weight: 600;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  outline: none;
-  background-color: var(--background);
-  color: var(--text);
-  transition: border 0.3s;
-}
-
-input[type="text"]:focus {
-  border-color: var(--primary);
-}
-
-/* Buttons */
-button, .stButton>button {
+/* ============ BUTTONS ============ */
+button, .stButton > button {
   padding: 12px 20px;
   font-size: 1rem;
   font-weight: bold;
@@ -121,25 +105,25 @@ button, .stButton>button {
   transition: background 0.3s, transform 0.2s;
 }
 
-button.primary-button, .stButton>button {
+.primary-button, .stButton > button {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: white;
 }
 
-button.primary-button:hover, .stButton>button:hover {
+.primary-button:hover, .stButton > button:hover {
   transform: scale(1.05);
 }
 
 .secondary-button {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--border);
+  color: var(--text);
 }
 
 .secondary-button:hover {
-  background: #e0e0e0;
+  background: #666;
 }
 
-/* Tags */
+/* ============ TAGS ============ */
 .tag-input-container {
   display: flex;
   flex-wrap: wrap;
@@ -171,18 +155,16 @@ button.primary-button:hover, .stButton>button:hover {
   font-weight: bold;
 }
 
-/* Question Block */
+/* ============ QUESTIONS ============ */
 .question-block {
   margin: 20px 0;
   padding: 15px;
-  background: rgba(127, 127, 127, 0.07); /* ✅ Change this */
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Result */
+/* ============ RESULT ============ */
 .result-box {
   padding: 20px;
   background: var(--result-bg);
@@ -193,12 +175,12 @@ button.primary-button:hover, .stButton>button:hover {
   animation: fadeIn 0.4s ease-in;
 }
 
-/* Radio Button Fix */
+/* ============ RADIO FIX ============ */
 label input[type="radio"] {
   margin-right: 8px;
 }
 
-/* Animations */
+/* ============ ANIMATIONS ============ */
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
