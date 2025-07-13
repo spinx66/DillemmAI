@@ -6,6 +6,7 @@ import json
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
+# --- Helper Functions ---
 def call_groq(prompt):
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
@@ -69,21 +70,20 @@ Respond in:
 """
     return safe_json_object(call_groq(prompt))
 
-# --- UI ---
-# --- Init session state ---
+# --- Session State ---
 if "questions" not in st.session_state:
     st.session_state.questions = []
 if "answers" not in st.session_state:
     st.session_state.answers = {}
 
-# --- UI ---
+# --- UI Layout ---
+st.set_page_config(page_title="🎲 DillemAI", layout="centered")
 st.title("🎲 DillemAI")
 st.write("Let AI help you make smarter choices, not random ones.")
 
 purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
 options_input = st.text_input("🔘 Enter options (comma-separated)", placeholder="Pizza, Burger, Salad")
 
-# Function to run only when button is clicked
 def fetch_questions():
     options = [o.strip() for o in options_input.split(",") if o.strip()]
     if not purpose or len(options) < 2:
@@ -101,17 +101,12 @@ st.button("🚀 Generate Questions", on_click=fetch_questions)
 if st.session_state.questions:
     st.subheader("🧠 Answer a few smart questions:")
     for q in st.session_state.questions:
-        user_answer = st.radio(
-            q["text"],
-            q["options"],
-            key=q["text"],
-            index=st.session_state.answers.get(q["text"], 0) if q["text"] in st.session_state.answers else 0
-        )
-        st.session_state.answers[q["text"]] = user_answer
+        current_val = st.session_state.answers.get(q["text"], q["options"][0])
+        answer = st.radio(q["text"], q["options"], key=q["text"], index=q["options"].index(current_val) if current_val in q["options"] else 0)
+        st.session_state.answers[q["text"]] = answer
 
     if st.button("🎯 Get Smart Decision"):
         options = [o.strip() for o in options_input.split(",") if o.strip()]
         result = get_final_decision(purpose, options, st.session_state.answers)
         st.success(f"**Decision:** {result['decision']}")
         st.info(f"💡 _{result['reason']}_")
-
