@@ -113,20 +113,20 @@ if st.session_state.options:
         with col:
             st.markdown(f"""
             <div class='tag'>
-              {tag} <span onclick="window.location.href='/?remove_tag={i}'">×</span>
+              {tag} <span onclick=\"window.location.href='/?remove_tag={i}'\">×</span>
             </div>
             """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # --- Remove Tag via Query Param ---
-query = st.experimental_get_query_params()
+query = st.query_params
 if "remove_tag" in query:
     try:
-        index = int(query["remove_tag"][0])
+        index = int(query["remove_tag"])
         if 0 <= index < len(st.session_state.options):
             st.session_state.options.pop(index)
-            st.experimental_set_query_params()
-            st.experimental_rerun()
+            st.query_params.clear()
+            st.rerun()
     except:
         pass
 
