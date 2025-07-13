@@ -3,6 +3,7 @@ import requests
 import json
 
 # --- Setup ---
+st.set_page_config(page_title="🎲 DillemAI", layout="centered")
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -70,62 +71,78 @@ Respond in:
 """
     return safe_json_object(call_groq(prompt))
 
-# --- Session State ---
+# --- State ---
 for key in ["questions", "answers", "options"]:
     if key not in st.session_state:
         st.session_state[key] = []
 
-# --- UI Layout ---
-st.set_page_config(page_title="🎲 DillemAI", layout="centered")
-st.title("🎲 DillemAI")
-st.write("Let AI help you make smarter choices, not random ones.")
+# --- CSS Injection ---
+st.markdown("""
+<style>
+    .app-title {
+        text-align: center;
+        font-size: 2.5em;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    .subtitle {
+        text-align: center;
+        font-size: 1.1em;
+        color: #777;
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+    .tag-button {
+        background-color: #eee;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 20px;
+        margin: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+    .tag-button:hover {
+        background-color: #ccc;
+    }
+</style>
+""", unsafe_allow_html=True)
 
-purpose = st.text_input("💭 What do you want to decide?", placeholder="e.g. What should I eat tonight?")
+# --- UI ---
+st.markdown("<h1 class='app-title'>🎲 DillemAI</h1>", unsafe_allow_html=True)
+st.markdown("<p class='subtitle'>Let AI make your choices smarter, not random.</p>", unsafe_allow_html=True)
 
-# --- Tag Input Style Option Input ---
-st.subheader("🔘 Enter your options (press 'Add Option' or Enter)")
+st.subheader("💭 What do you want to decide?")
+purpose = st.text_input("", placeholder="e.g. Should I launch this feature?")
 
-with st.form("add_option_form", clear_on_submit=True):
-    new_option = st.text_input("Type an option", placeholder="e.g. Burger", key="new_option_input")
-    submitted = st.form_submit_button("➕ Add Option")
-    if submitted and new_option:
-        cleaned = new_option.strip().strip(",")
-        if cleaned and cleaned not in st.session_state.options:
-            st.session_state.options.append(cleaned)
+st.subheader("🏷️ Enter Options (as tags)")
+with st.form("option_form", clear_on_submit=True):
+    new_opt = st.text_input("Type an option and hit Add", key="option_input")
+    add_btn = st.form_submit_button("➕ Add Option")
+    if add_btn and new_opt:
+        val = new_opt.strip().strip(",")
+        if val and val not in st.session_state.options:
+            st.session_state.options.append(val)
 
-# Display options as removable tags
 if st.session_state.options:
-    st.write("### Options:")
-    cols = st.columns(min(len(st.session_state.options), 4))
+    cols = st.columns(min(4, len(st.session_state.options)))
     for i, opt in enumerate(st.session_state.options):
-        with cols[i % len(cols)]:
-            if st.button(f"❌ {opt}", key=f"remove_{opt}"):
+        with cols[i % 4]:
+            if st.button(f"❌ {opt}", key=f"rm_{opt}"):
                 st.session_state.options.remove(opt)
 
-else:
-    st.info("Add at least 2 options to continue.")
-
 # --- Generate Questions ---
-def fetch_questions():
-    options = st.session_state.options
-    if not purpose or len(options) < 2:
-        st.warning("Please enter a valid question and at least 2 options.")
-        return
-    questions = generate_questions(purpose, options)
-    if not questions:
-        st.error("Groq didn't return any questions.")
+if st.button("🚀 Generate Smart Questions"):
+    if not purpose or len(st.session_state.options) < 2:
+        st.warning("Please enter a purpose and at least 2 options.")
     else:
-        st.session_state.questions = questions
+        st.session_state.questions = generate_questions(purpose, st.session_state.options)
         st.session_state.answers = {}
 
-st.button("🚀 Generate Questions", on_click=fetch_questions)
-
-# --- Show Questions and Collect Answers ---
+# --- Show Questions ---
 if st.session_state.questions:
-    st.subheader("🧠 Answer a few smart questions:")
+    st.subheader("🧠 Help me understand better:")
     for q in st.session_state.questions:
-        current_val = st.session_state.answers.get(q["text"], q["options"][0])
-        answer = st.radio(q["text"], q["options"], key=q["text"], index=q["options"].index(current_val) if current_val in q["options"] else 0)
+        answer = st.radio(q["text"], q["options"], key=q["text"])
         st.session_state.answers[q["text"]] = answer
 
     if st.button("🎯 Get Smart Decision"):
