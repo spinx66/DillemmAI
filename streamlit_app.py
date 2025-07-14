@@ -35,11 +35,13 @@ render_header()
 purpose = render_input_section()
 render_tags()
 
+# 🔄 Add Reset Button Here (after tags)
 if st.button("🔄 Reset All", key="reset_all"):
     from core.state import reset_all
     reset_all()
     st.rerun()
 
+# 🚀 Main Action Button
 if st.button("🚀 Decide My Fate", key="decide_button"):
     if not purpose or len(st.session_state.options) < 2:
         st.warning("Enter a valid question and at least two options.")
