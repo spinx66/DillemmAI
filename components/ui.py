@@ -61,19 +61,6 @@ def render_result_box(purpose):
 
     if st.session_state.questions and st.button("🔍 Get Smart Result"):
         result = get_final_decision(purpose, st.session_state.options, st.session_state.answers)
-        st.markdown(f"""
-        <section class='result-box'>
-        🎯 <strong>Decision:</strong> {result['decision']}<br>
-        💡 <em>{result['reason']}</em>
-        </section>
-        """, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)  # Close .app-container
-
-def render_result_box(purpose):
-    from core.logic import get_final_decision
-
-    if st.session_state.questions and st.button("🔍 Get Smart Result"):
-        result = get_final_decision(purpose, st.session_state.options, st.session_state.answers)
         st.session_state.result = result  # ⬅️ Save result in session state
 
     # Now render the stored result if exists
@@ -86,3 +73,14 @@ def render_result_box(purpose):
         """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)  # Close .app-container
+
+def render_reset_button():
+    st.markdown("<div class='reset-button-container'>", unsafe_allow_html=True)
+    if st.button("🔄 Reset All", key="reset_all"):
+        st.session_state.questions = []
+        st.session_state.answers = {}
+        st.session_state.options = []
+        st.session_state.result = None
+        st.session_state.main_purpose = ""  # ⬅️ reset purpose input
+        st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
