@@ -68,3 +68,12 @@ def render_result_box(purpose):
         </section>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)  # Close .app-container
+
+def render_reset_button():
+    if st.session_state.options or st.session_state.questions:
+        st.markdown("<div class='reset-button-container'>", unsafe_allow_html=True)
+        if st.button("🔄 Reset All", key="reset_all"):
+            from core.state import reset_all
+            reset_all()
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
