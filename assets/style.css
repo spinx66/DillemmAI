@@ -227,3 +227,9 @@ button[data-testid="baseButton-reset_all"]:hover {
   background-color: #ffeaea !important;
   color: #c92a2a !important;
 }
+
+.reset-button-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
