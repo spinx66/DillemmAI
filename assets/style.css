@@ -148,3 +148,69 @@ button[kind="primary"]:hover {
     padding: 0.9rem;
   }
 }
+
+/* ===== Animation Keyframes ===== */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadePulse {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes buttonHoverBounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+/* ===== Animate on Load ===== */
+.app-header {
+  animation: fadeSlideIn 0.8s ease-out;
+}
+
+.tag {
+  animation: popIn 0.4s ease;
+}
+
+.question-block {
+  animation: fadeSlideIn 0.6s ease;
+}
+
+.result-box {
+  animation: fadePulse 0.7s ease;
+}
+
+/* ===== Button Hover Pop ===== */
+button[kind="primary"]:hover {
+  animation: buttonHoverBounce 0.3s ease;
+}
+
