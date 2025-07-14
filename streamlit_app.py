@@ -36,6 +36,7 @@ render_header()
 purpose = render_input_section()
 render_tags()
 
+print("🔧 Reset button rendered!")
 render_reset_button()
 
 # 🚀 Main Action Button
