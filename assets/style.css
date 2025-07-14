@@ -214,3 +214,16 @@ button[kind="primary"]:hover {
   animation: buttonHoverBounce 0.3s ease;
 }
 
+button[data-testid="baseButton-reset_all"] {
+  background-color: #f0f0f0 !important;
+  color: #555 !important;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button[data-testid="baseButton-reset_all"]:hover {
+  background-color: #ffeaea !important;
+  color: #c92a2a !important;
+}
