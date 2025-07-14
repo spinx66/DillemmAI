@@ -30,7 +30,6 @@ with open("assets/style.css") as f:
 
 # Initialize state
 init_session_state()
-handle_tag_removal()
 
 render_header()
 purpose = render_input_section()
