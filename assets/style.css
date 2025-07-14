@@ -1,231 +1,150 @@
-/* ========== Base Theme Colors ========== */
-:root {
-  --primary: #007bff;
-  --primary-dark: #0056d2;
-  --text-light: #222;
-  --text-dark: #f1f1f1;
-  --bg-light: #ffffff;
-  --bg-dark: #0e1117;
-  --border-light: #ccc;
-  --border-dark: #444;
-  --tag-light: #007bff;
-  --tag-dark: #1a73e8;
-  --result-light: #dfffe0;
-  --result-dark: #123a12;
+/* ===== Base Setup ===== */
+body {
+  font-family: "Segoe UI", sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* Base fallback (light) */
-body {
-  --background: #ffffff;
+/* Light/Dark Mode Base */
+body.light-mode {
+  --bg: #ffffff;
   --text: #222;
-  --border: #ccc;
-  --tag-bg: #007bff;
-  --result-bg: #dfffe0;
-  --result-text: #222;
+  --primary: #007bff;
+  --tag-bg: #007bff15;
+  --tag-color: #007bff;
+  --tag-x: #ff4444;
+  --card-bg: #f8f9fa;
+  --result-bg: #e7f5ff;
+  --result-border: #228be6;
 }
 
-/* Dark mode overrides */
 body.dark-mode {
-  --background: #0e1117;
+  --bg: #0e1117;
   --text: #f1f1f1;
-  --border: #444;
-  --tag-bg: #1a73e8;
-  --result-bg: #123a12;
-  --result-text: #d4fcd4;
+  --primary: #4dabf7;
+  --tag-bg: #4dabf715;
+  --tag-color: #4dabf7;
+  --tag-x: #ffa8a8;
+  --card-bg: #1b1f2b;
+  --result-bg: #1c3d5a;
+  --result-border: #4dabf7;
 }
 
-/* ========== General ========== */
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-}
-
-/* ========== Streamlit Base Fixes ========== */
-.stApp {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-}
-
-.stTextInput > div > input,
-.stTextArea textarea,
-.stSelectbox div[data-baseweb="select"],
-.stRadio > div {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-}
-
-.stTextInput > div > input::placeholder {
-  color: #999 !important;
-}
-
-/* ========== App Container ========== */
-.app-container {
-  max-width: 720px;
-  margin: 40px auto;
-  padding: 20px 30px;
-  background: var(--background);
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-/* Header */
-.app-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.app-header h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
-}
-
-.subtitle {
-  font-size: 1rem;
-  color: gray;
-}
-
-/* Labels and Inputs */
-.input-label {
-  display: block;
-  margin: 12px 0 6px;
-  font-weight: 600;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  outline: none;
-  background-color: var(--background);
+  background: var(--bg);
   color: var(--text);
-  transition: border 0.3s;
 }
 
-input[type="text"]:focus {
-  border-color: var(--primary);
+/* ===== App Container ===== */
+.app-container {
+  max-width: 750px;
+  margin: auto;
+  padding: 2rem 1rem;
 }
 
-/* Buttons */
-button, .stButton>button {
-  padding: 12px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+/* ===== Header ===== */
+.app-header h1 {
+  text-align: center;
+  font-size: 2.8rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
 }
 
-button.primary-button, .stButton>button {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: white;
+.app-header .subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-bottom: 2rem;
 }
 
-button.primary-button:hover, .stButton>button:hover {
-  transform: scale(1.05);
+/* ===== Input Section ===== */
+.input-section {
+  margin-bottom: 2rem;
 }
 
-.secondary-button {
-  background: #f0f0f0;
-  color: #333;
+.input-label {
+  font-weight: 600;
+  margin: 0.5rem 0;
+  display: block;
 }
 
-.secondary-button:hover {
-  background: #e0e0e0;
-}
-
-/* Tags */
-.tag-input-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
+/* ===== Tag Styling ===== */
 .tag-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .tag {
-  background-color: var(--tag-bg);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 50px;
+  background: var(--tag-bg);
+  color: var(--tag-color);
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  animation: popIn 0.2s ease-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  cursor: default;
+  transition: all 0.2s ease;
 }
 
 .tag span {
-  cursor: pointer;
+  margin-left: 8px;
   font-weight: bold;
+  cursor: pointer;
+  color: var(--tag-x);
+  padding: 0 4px;
 }
 
-/* Question Block */
+/* ===== Question Cards ===== */
+.question-section {
+  margin-top: 2rem;
+}
+
 .question-block {
-  margin: 20px 0;
-  padding: 15px;
-  background: rgba(127, 127, 127, 0.07); /* ✅ Change this */
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-/* Result */
-.result-box {
-  padding: 20px;
-  background: var(--result-bg);
-  border: 2px dashed #5ec85e;
+  background: var(--card-bg);
+  padding: 1rem 1.2rem;
   border-radius: 12px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* ===== Result Box ===== */
+.result-box {
+  background: var(--result-bg);
+  padding: 1.25rem;
+  border-left: 6px solid var(--result-border);
+  margin-top: 2rem;
+  border-radius: 10px;
   font-size: 1.1rem;
-  color: var(--result-text);
-  animation: fadeIn 0.4s ease-in;
+  line-height: 1.6;
 }
 
-/* Radio Button Fix */
-label input[type="radio"] {
-  margin-right: 8px;
+/* ===== Buttons (Optional override) ===== */
+button[kind="primary"] {
+  background-color: var(--primary) !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  transition: background 0.2s;
+  margin-top: 1rem;
 }
 
-  /* Fixes for internal Streamlit widget containers */
-section, .stRadio, .stSelectbox, .stTextInput, .stTextArea, .stForm {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-  border-color: var(--border) !important;
+button[kind="primary"]:hover {
+  filter: brightness(1.1);
 }
 
-.stRadio > div > label,
-.stSelectbox > div,
-.stTextInput > div,
-.stTextArea > div {
-  color: var(--text) !important;
-}
+/* ===== Mobile Responsive ===== */
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
 
-/* Fix label opacity */
-.stRadio label, .stSelectbox label, .stTextInput label {
-  color: var(--text) !important;
-  opacity: 1 !important;
-}
+  .tag {
+    font-size: 0.8rem;
+  }
 
-
-/* Animations */
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  .question-block {
+    padding: 0.9rem;
+  }
 }
