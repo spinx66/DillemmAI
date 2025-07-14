@@ -37,13 +37,13 @@ def render_tags():
     if st.session_state.options:
         st.markdown("<div class='tag-container'>", unsafe_allow_html=True)
         for i, tag in enumerate(st.session_state.options):
-            col = st.columns([0.05, 0.9, 0.05])[1]
-            with col:
-                st.markdown(f"""
-                <div class='tag'>
-                  {tag} <span onclick=\"window.location.href='/?remove_tag={i}'\">×</span>
-                </div>
-                """, unsafe_allow_html=True)
+            col = st.columns([0.9, 0.1])
+            with col[0]:
+                st.markdown(f"<div class='tag'>{tag}</div>", unsafe_allow_html=True)
+            with col[1]:
+                if st.button("×", key=f"remove_{i}"):
+                    st.session_state.options.pop(i)
+                    st.rerun()
         st.markdown("</div>", unsafe_allow_html=True)
 
 def render_question_section(purpose):
