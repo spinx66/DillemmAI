@@ -2,6 +2,7 @@
 
 import streamlit as st
 from core.logic import generate_questions, get_final_decision
+from core.state import init_session_state
 from components.ui import (
     render_header,
     render_input_section,
