@@ -2,6 +2,7 @@ import streamlit as st
 from core.state import init_session_state
 from components.ui import (
     render_header,
+    render_input_section
     render_tags,
     render_question_section,
     render_result_box,
