@@ -3,15 +3,9 @@
 import streamlit as st
 
 def init_session_state():
-    defaults = {
-        "questions": [],
-        "answers": {},     # <-- should be a dict
-        "options": [],
-        "result": None,
-    }
-    for key, value in defaults.items():
+    for key in ["questions", "answers", "options"]:
         if key not in st.session_state:
-            st.session_state[key] = value
+            st.session_state[key] = []
 
 def reset_all():
     st.session_state.questions = []
