@@ -1,7 +1,4 @@
-# streamlit_app.py
-
 import streamlit as st
-from core.logic import generate_questions, get_final_decision
 from core.state import init_session_state
 from components.ui import (
     render_header,
@@ -11,6 +8,7 @@ from components.ui import (
     render_result_box,
     render_reset_button
 )
+from core.logic import generate_questions
 
 st.set_page_config(page_title="🎲 DilemmAI", layout="centered")
 
@@ -29,17 +27,14 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', det
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Initialize state
+# Init session
 init_session_state()
 
 render_header()
 purpose = render_input_section()
 render_tags()
-
-print("🔧 Reset button rendered!")
 render_reset_button()
 
-# 🚀 Main Action Button
 if st.button("🚀 Decide My Fate", key="decide_button"):
     if not purpose or len(st.session_state.options) < 2:
         st.warning("Enter a valid question and at least two options.")
