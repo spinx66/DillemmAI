@@ -17,13 +17,18 @@ def render_input_stage():
     
     st.session_state.main_purpose = st.text_input("Describe your main goal:", st.session_state.main_purpose)
     
-    options_raw = st.text_area("List all your options (one per line):", "\n".join(st.session_state.options))
-    st.session_state.options = [opt.strip() for opt in options_raw.split("\n") if opt.strip()]
+    options_input = st.text_input("Enter your options (comma separated):", placeholder="e.g. Option A, Option B, Option C")
     
-    if st.button("Ask AI for help") and st.session_state.main_purpose and len(st.session_state.options) >= 2:
-        st.session_state.questions = generate_questions(st.session_state.main_purpose, st.session_state.options)
+    if st.button("Next"):
+        st.session_state.main_purpose = purpose
+        st.session_state.options = [opt.strip() for opt in options_input.split(",") if opt.strip()]
+        
+        # Add safety check
+        if not st.session_state.options or len(st.session_state.options) < 2:
+            st.warning("Please enter at least 2 valid options.")
+            return
+    
         st.session_state.stage = "questions"
-        st.rerun()
 
 def render_questions_stage():
     st.title("🧠 Help me understand better")
