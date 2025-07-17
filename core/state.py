@@ -1,9 +1,10 @@
 # core/state.py
+
 import streamlit as st
 
 def init_session_state():
     if "stage" not in st.session_state:
-        st.session_state.stage = "input"  # stages: input → questions → final_decision
+        st.session_state.stage = "intro"
 
     if "main_purpose" not in st.session_state:
         st.session_state.main_purpose = ""
@@ -16,6 +17,3 @@ def init_session_state():
 
     if "answers" not in st.session_state:
         st.session_state.answers = {}
-
-    if "final_decision" not in st.session_state:
-        st.session_state.final_decision = ""
