@@ -1,19 +1,12 @@
 # core/state.py
-
 import streamlit as st
 
 def init_session_state():
+    """Initialize all required keys in session_state."""
     if "stage" not in st.session_state:
-        st.session_state.stage = "intro"
-
-    if "main_purpose" not in st.session_state:
-        st.session_state.main_purpose = ""
-
-    if "options" not in st.session_state:
-        st.session_state.options = []
-
-    if "questions" not in st.session_state:
-        st.session_state.questions = []
-
-    if "answers" not in st.session_state:
-        st.session_state.answers = {}
+        st.session_state.stage = "input"  # stages: input, questions, final
+    st.session_state.setdefault("main_purpose", "")
+    st.session_state.setdefault("options", [])
+    st.session_state.setdefault("questions", [])
+    st.session_state.setdefault("answers", {})
+    st.session_state.setdefault("final_decision", {})
