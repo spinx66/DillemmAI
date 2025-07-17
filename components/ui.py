@@ -4,7 +4,7 @@ from core.logic import generate_questions, get_final_decision
 from core.state import init_session_state
 
 def render_ui():
-    """Dispatch to the appropriate UI stage."""
+    """Dispatch to the appropriate UI stage based on session_state.stage."""
     stage = st.session_state.stage
     if stage == "input":
         render_input()
@@ -14,41 +14,44 @@ def render_ui():
         render_final()
 
 def render_input():
-    """Input stage: get main question and options via tag-style inputs."""
+    """Render the input stage: main question and tag-style option inputs."""
     st.title("🤔 DillemmAI")
     st.subheader("1️⃣ Describe your dilemma")
 
+    # Main question input
     st.session_state.main_purpose = st.text_input(
         "What do you want to decide?",
         st.session_state.main_purpose,
         key="main_input"
     )
 
+    # Options input
     st.subheader("2️⃣ Add your options")
     cols = st.columns([3, 1])
-    new_opt = cols[0].text_input("Option", key="new_opt")
+    new_opt = cols[0].text_input("Option")
     if cols[1].button("➕ Add") and new_opt:
         if new_opt not in st.session_state.options:
             st.session_state.options.append(new_opt)
-        st.session_state.new_opt = ""
+        # No direct state modification of text_input after creation
         st.experimental_rerun()
 
-    # Display tags
+    # Display current options as tags
     if st.session_state.options:
         st.markdown("**Options:**")
-        tags = "  ".join(f"`{o}`" for o in st.session_state.options)
-        st.markdown(tags, unsafe_allow_html=True)
+        tags_md = "  ".join(f"`{o}`" for o in st.session_state.options)
+        st.markdown(tags_md, unsafe_allow_html=True)
+
         # Removal dropdown
         remove = st.selectbox(
             "Remove an option:",
             ["None"] + st.session_state.options,
-            key="remove_opt"
+            key="remove_select"
         )
         if remove != "None":
             st.session_state.options.remove(remove)
             st.experimental_rerun()
 
-    # Proceed
+    # Generate questions button
     if st.button("🚀 Generate Follow‑up Questions"):
         if not st.session_state.main_purpose:
             st.error("⚠️ Please enter your main question.")
@@ -63,7 +66,7 @@ def render_input():
             st.experimental_rerun()
 
 def render_questions():
-    """Questions stage: show follow-ups and collect answers."""
+    """Render clarification questions and collect answers."""
     st.title("🧠 Clarification Questions")
     with st.form("questions_form"):
         answers = {}
@@ -75,8 +78,7 @@ def render_questions():
                 opts,
                 key=f"radio_{i}"
             )
-        submitted = st.form_submit_button("🔍 Get Final Decision")
-        if submitted:
+        if st.form_submit_button("🔍 Get Final Decision"):
             st.session_state.answers = answers
             st.session_state.final_decision = get_final_decision(
                 st.session_state.main_purpose,
@@ -87,10 +89,9 @@ def render_questions():
             st.experimental_rerun()
 
 def render_final():
-    """Final stage: display the decision and reason, with restart option."""
+    """Render the final decision result and restart button."""
     st.title("✅ Here's Your Decision")
     d = st.session_state.final_decision
-    # If dict
     if isinstance(d, dict):
         st.markdown(f"### 🎯 {d.get('decision', 'Unknown')}")
         st.write(d.get('reason', 'No explanation provided.'))
