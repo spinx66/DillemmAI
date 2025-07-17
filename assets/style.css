@@ -1,47 +1,53 @@
 /* assets/style.css */
 
 html, body {
-    background-color: #f7f9fc;
-    font-family: 'Segoe UI', sans-serif;
-    color: #222;
+background-color: #f7f9fc;
+font-family: 'Segoe UI', sans-serif;
+color: #222;
 }
 
+/* Headings */
 h1, h2, h3 {
-    color: #1f3b4d;
+color: #1f3b4d;
 }
 
+/* Buttons */
 .stButton button {
-    background-color: #007bff;
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    border: none;
-    transition: background-color 0.3s ease;
+background-color: #007bff;
+color: white;
+font-weight: 600;
+border-radius: 8px;
+padding: 0.5rem 1rem;
+border: none;
+transition: background-color 0.3s ease;
 }
 
 .stButton button:hover {
-    background-color: #0056b3;
+background-color: #0056b3;
 }
 
+/* Text inputs & text areas */
 .stTextInput > div > input,
 .stTextArea > div > textarea {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 0.5rem;
+background-color: #ffffff;
+border: 1px solid #ccc;
+border-radius: 6px;
+padding: 0.5rem;
 }
 
+/* Radio options */
 .stRadio > div {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    border-radius: 6px;
+background-color: #ffffff;
+border: 1px solid #ddd;
+padding: 0.5rem;
+border-radius: 6px;
 }
 
+/* Forms */
 .stForm {
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+padding: 1rem;
+background-color: #fff;
+border-radius: 12px;
+box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
+
