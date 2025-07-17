@@ -33,7 +33,7 @@ def render_input():
         if new_opt not in st.session_state.options:
             st.session_state.options.append(new_opt)
         # No direct state modification of text_input after creation
-        st.experimental_rerun()
+        
 
     # Display current options as tags
     if st.session_state.options:
@@ -49,7 +49,7 @@ def render_input():
         )
         if remove != "None":
             st.session_state.options.remove(remove)
-            st.experimental_rerun()
+            
 
     # Generate questions button
     if st.button("🚀 Generate Follow‑up Questions"):
@@ -63,7 +63,7 @@ def render_input():
                 st.session_state.options
             )
             st.session_state.stage = "questions"
-            st.experimental_rerun()
+            
 
 def render_questions():
     """Render clarification questions and collect answers."""
@@ -86,7 +86,7 @@ def render_questions():
                 st.session_state.answers
             )
             st.session_state.stage = "final"
-            st.experimental_rerun()
+            
 
 def render_final():
     """Render the final decision result and restart button."""
@@ -102,4 +102,4 @@ def render_final():
         for key in ["stage", "main_purpose", "options", "questions", "answers", "final_decision"]:
             st.session_state.pop(key, None)
         init_session_state()
-        st.experimental_rerun()
+        
